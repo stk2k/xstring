@@ -27,7 +27,7 @@ use stk2k\xstring\xs;
 
 // Length
 echo xs::length('Hello');    // 5
-echo xs::length('你好', true);    // 2
+echo xs::length('你好');    // 2
 
 // Join
 echo xs::join(',', [1,2,3]);    // 1,2,3
