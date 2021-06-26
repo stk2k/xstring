@@ -9,7 +9,6 @@ use ArrayIterator;
 use Traversable;
 use Countable;
 use JsonSerializable;
-use function stk2k\xstring\globals\xs;
 
 final class xStringArray implements ArrayAccess, IteratorAggregate, Countable, JsonSerializable
 {
@@ -84,7 +83,7 @@ final class xStringArray implements ArrayAccess, IteratorAggregate, Countable, J
     public function join(string $seperator) : xString
     {
         $str = implode($seperator, $this->values);
-        return xs($str, $this->encoding);
+        return new xString($str, $this->encoding);
     }
 
     /**
