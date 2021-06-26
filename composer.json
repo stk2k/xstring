@@ -1,0 +1,36 @@
+{
+  "name": "stk2k/xstring",
+  "description": "Basic string library",
+  "keywords": ["PHP","String"],
+  "homepage": "https://github.com/stk2k/xstring",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Katsuki Shuto",
+      "email": "stk2k@sazysoft.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-mbstring": "*",
+    "ext-json": "*",
+    "stk2k/string-format": "~0.1",
+    "symfony/polyfill-mbstring": "~1.23"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5.15",
+    "php-coveralls/php-coveralls": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "stk2k\\xstring\\": "src/"
+    },
+    "files": [ "src/globals/functions.php" ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "stk2k\\xstring\\test\\": "test/"
+    }
+  }
+}
