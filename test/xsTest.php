@@ -190,4 +190,13 @@ final class xsTest extends TestCase
         $this->assertEquals(['a','b','c'], xs::split('a,b,c', ',')->values());
         $this->assertEquals(['あ','いb','うc'], xs::split('あ,いb,うc', ',')->values());
     }
+    public function testEach()
+    {
+        ob_start();
+        xs::each('Hello', function($c){
+            echo $c . '.';
+        });
+        $text = ob_get_clean();
+        $this->assertEquals('H.e.l.l.o.', $text);
+    }
 }

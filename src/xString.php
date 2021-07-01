@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace stk2k\xstring;
 
-class xString
+use IteratorAggregate;
+use ArrayIterator;
+
+class xString implements IteratorAggregate
 {
     const DEFAULT_ENCODING = 'UTF-8';
 
@@ -23,6 +26,14 @@ class xString
     {
         $this->str = $str;
         $this->encoding = $encoding;
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator(mb_str_split($this->str, 1, $this->encoding));
     }
 
     /**
@@ -423,6 +434,21 @@ class xString
     public function replaceRegEx(string $pattern, string $replacement) : xString
     {
         $this->str = preg_replace($pattern, $replacement, $this->str);
+        return $this;
+    }
+
+    /**
+     * Processes each characters
+     *
+     * @param callable $cb
+     *
+     * @return $this
+     */
+    public function each(callable $cb) : xString
+    {
+        foreach($this as $c){
+            $cb($c);
+        }
         return $this;
     }
 

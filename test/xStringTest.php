@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace stk2k\xstring\test;
 
 use PHPUnit\Framework\TestCase;
-use stk2k\string\MultibyteString;
 use stk2k\xstring\xString;
 use stk2k\xstring\xStringBuffer;
 
@@ -49,6 +48,27 @@ final class xStringTest extends TestCase
         $this->assertEquals('こんにちは', (new xString($str))->concat(null));
         $this->assertEquals('こんにちは:-1:0:3.14', (new xString($str))->concat(":", -1, ":", 0, ":", 3.14));
         $this->assertEquals('こんにちは:true:false', (new xString($str))->concat(":", true, ":", false));
+    }
+    public function testTraversable()
+    {
+        $str = 'こんにちは';
+
+        $pos = 0;
+        foreach(new xString($str) as $c){
+            $this->assertEquals(mb_substr($str, $pos, 1), $c);
+            $pos ++;
+        }
+    }
+    public function testEach()
+    {
+        $str = 'こんにちは';
+
+        ob_start();
+        (new xString($str))->each(function($c){
+            echo $c . '.';
+        });
+        $text = ob_get_clean();
+        $this->assertEquals('こ.ん.に.ち.は.', $text);
     }
 
 }

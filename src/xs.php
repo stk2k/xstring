@@ -325,4 +325,18 @@ final class xs
         }
         return $str;
     }
+
+    /**
+     * Processes each characters
+     *
+     * @param string $subject
+     * @param callable $cb
+     * @param string $encoding
+     *
+     * @return xString
+     */
+    public static function each(string $subject, callable $cb, string $encoding = xString::DEFAULT_ENCODING) : xString
+    {
+        return self::newString($subject, $encoding)->each($cb);
+    }
 }

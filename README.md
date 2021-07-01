@@ -81,6 +81,10 @@ echo xs::trim(' [Hello] ')->toLower()->remove(1,2);    // [hlo]
 //  - see more samples: https://github.com/stk2k/xstring-format
 echo xs::format('Hello, {0}!', 'David');    // Hello, David!
 
+// foreach
+xs::each('Hello', function($c){
+    echo $c . '.';    // H.e.l.l.o.
+});
 ```
 
 ### global function(s)
@@ -91,6 +95,12 @@ use function stk2k\xstring\globals\s;
 echo s('Hello');                // Hello
 echo s('Hello')->length();      // 5
 echo s('Hello')->toLower();     // hello
+
+// foreach
+foreach(s('Hello') as $c){
+    echo $c . '.';    // H.e.l.l.o.
+}
+
 ```
 
 ### xStringArray
