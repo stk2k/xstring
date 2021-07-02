@@ -14,11 +14,13 @@ final class xStringBuffer implements IteratorAggregate
     /**
      * StringBuffer constructor.
      *
-     * @param xString|null $str
+     * @param xString|string $str
+     * @param int|null $length
+     * @param string $fill
      */
-    public function __construct(xString $str = null, int $length = null, string $fill = ' ')
+    public function __construct($str = '', int $length = null, string $fill = ' ')
     {
-        $this->string = $str ?? new xString('');
+        $this->string = $str instanceof xString ? $str : new xString($str);
         if ($length > $this->string->length()){
             $this->fill($length, $fill);
         }

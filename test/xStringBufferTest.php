@@ -6,9 +6,15 @@ namespace stk2k\xstring\test;
 use PHPUnit\Framework\TestCase;
 use stk2k\xstring\xString;
 use stk2k\xstring\xStringBuffer;
+use function stk2k\xstring\globals\s;
 
 final class xStringBufferTest extends TestCase
 {
+    public function testConstruct()
+    {
+        $this->assertEquals(1, (new xStringBuffer('a'))->length());
+        $this->assertEquals(1, (new xStringBuffer(s('a')))->length());
+    }
     public function testLength()
     {
         $this->assertEquals(0, (new xStringBuffer(new xString('')))->length());

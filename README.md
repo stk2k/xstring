@@ -125,10 +125,9 @@ echo $sa;                       // {"0":"a","2":"c","1":"Foo"}
 
 ```php
 use stk2k\xstring\xStringBuffer;
-use function stk2k\xstring\globals\s;
 
-$b = new xStringBuffer(s('abc'));
-$c = new xStringBuffer(s('a,b,c'));
+$b = new xStringBuffer('abc');
+$c = new xStringBuffer('a,b,c');
 
 echo $b->length();                  // 3
 echo $c->length();                  // 5
