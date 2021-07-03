@@ -32,5 +32,8 @@
     "psr-4": {
       "stk2k\\xstring\\test\\": "test/"
     }
+  },
+  "scripts": {
+    "test": "phpunit"
   }
 }
