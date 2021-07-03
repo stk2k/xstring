@@ -90,13 +90,13 @@ final class xStringBuffer implements IteratorAggregate
     /**
      * Set buffer string
      *
-     * @param xString $str
+     * @param string|xString $str
      *
      * @return self
      */
-    public function set(xString $str) : self
+    public function set($str) : self
     {
-        $this->string = $str;
+        $this->string->set($str);
         return $this;
     }
 
@@ -147,18 +147,18 @@ final class xStringBuffer implements IteratorAggregate
      */
     public function clear() : self
     {
-        $this->string = new xString('');
+        $this->string->set('');
         return $this;
     }
 
     /**
      * Append a string to buffer
      *
-     * @param string $str
+     * @param string|xString $str
      *
      * @return $this
      */
-    public function append(string $str) : self
+    public function append($str) : self
     {
         $this->string = $this->string->append($str);
         return $this;

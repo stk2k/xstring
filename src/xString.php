@@ -70,13 +70,13 @@ class xString implements IteratorAggregate
     /**
      * Set string
      *
-     * @param string $str
+     * @param string|xString $str
      *
      * @return self
      */
-    public function set(string $str) : self
+    public function set($str) : self
     {
-        $this->str = $str;
+        $this->str = $str instanceof xString ? $str->value() : "$str";
         return $this;
     }
 
@@ -135,12 +135,13 @@ class xString implements IteratorAggregate
     /**
      * Seach string index
      *
-     * @param string $search
+     * @param string|xString $search
      *
      * @return int
      */
-    public function indexOf(string $search) : int
+    public function indexOf($search) : int
     {
+        $search = $search instanceof xString ? $search->value() : $search;
         $res = mb_strpos($this->str, $search);
         return $res === false ? -1 : $res;
     }
@@ -148,36 +149,39 @@ class xString implements IteratorAggregate
     /**
      * Check if the string contains specified string
      *
-     * @param string $search
+     * @param string|xString $search
      *
      * @return bool
      */
-    public function contains(string $search) : bool
+    public function contains($search) : bool
     {
+        $search = $search instanceof xString ? $search->value() : $search;
         return mb_strpos($this->str, $search) !== false;
     }
 
     /**
      * Check if the string starts with specified string
      *
-     * @param string $str
+     * @param string|xString $str
      *
      * @return bool
      */
-    public function startsWith(string $str) : bool
+    public function startsWith($str) : bool
     {
+        $str = $str instanceof xString ? $str->value() : $str;
         return mb_strpos($this->str, $str) === 0;
     }
 
     /**
      * Check if the string ends with specified string
      *
-     * @param string $str
+     * @param string|xString $str
      *
      * @return bool
      */
-    public function endsWith(string $str) : bool
+    public function endsWith($str) : bool
     {
+        $str = $str instanceof xString ? $str->value() : $str;
         return mb_strrpos($this->str, $str) === mb_strlen($this->str) - mb_strlen($str);
     }
 
@@ -230,12 +234,13 @@ class xString implements IteratorAggregate
     /**
      * Appneds a string
      *
-     * @param string $str
+     * @param string|xString $str
      *
      * @return self
      */
-    public function append(string $str) : self
+    public function append($str) : self
     {
+        $str = $str instanceof xString ? $str->value() : $str;
         $this->str = $this->str . $str;
         return $this;
     }
@@ -278,12 +283,13 @@ class xString implements IteratorAggregate
     /**
      * Split string into string array by seperator
      *
-     * @param string $separator
+     * @param string|xString $separator
      *
      * @return xStringArray
      */
-    public function split(string $separator = '') : xStringArray
+    public function split($separator = '') : xStringArray
     {
+        $separator = $separator instanceof xString ? $separator->value() : $separator;
         if (empty($separator)){
             return new xStringArray(mb_str_split($this->str), $this->encoding);
         }
@@ -349,12 +355,13 @@ class xString implements IteratorAggregate
     /**
      * Compare the string and specified string
      *
-     * @param string $value
+     * @param string|xString $value
      *
      * @return int
      */
-    public function compare(string $value) : int
+    public function compare($value) : int
     {
+        $value = $value instanceof xString ? $value->value() : $value;
         return strcmp($this->value(), $value);
     }
 
@@ -373,12 +380,13 @@ class xString implements IteratorAggregate
     /**
      * Strip whitespace
      *
-     * @param string|null $characters
+     * @param string|xString|null $characters
      *
      * @return self
      */
-    public function trim(string $characters = null) : xString
+    public function trim($characters = null) : xString
     {
+        $characters = $characters instanceof xString ? $characters->value() : $characters;
         $this->str = is_null($characters) ? trim($this->str) : trim($this->str, $characters);
         return $this;
     }
@@ -386,12 +394,13 @@ class xString implements IteratorAggregate
     /**
      * Strip whitespace from start
      *
-     * @param string|null $characters
+     * @param string|xString|null $characters
      *
      * @return xString
      */
-    public function trimStart(string $characters = null) : xString
+    public function trimStart($characters = null) : xString
     {
+        $characters = $characters instanceof xString ? $characters->value() : $characters;
         $this->str = is_null($characters) ? ltrim($this->str) : ltrim($this->str, $characters);
         return $this;
     }
@@ -399,12 +408,13 @@ class xString implements IteratorAggregate
     /**
      * Strip whitespace from end
      *
-     * @param string|null $characters
+     * @param string|xString|null $characters
      *
      * @return xString
      */
-    public function trimEnd(string $characters = null) : xString
+    public function trimEnd($characters = null) : xString
     {
+        $characters = $characters instanceof xString ? $characters->value() : $characters;
         $this->str = is_null($characters) ? rtrim($this->str) : rtrim($this->str, $characters);
         return $this;
     }
@@ -412,13 +422,15 @@ class xString implements IteratorAggregate
     /**
      * Replace string
      *
-     * @param string $search
-     * @param string $replacement
+     * @param string|xString $search
+     * @param string|xString $replacement
      *
      * @return $this
      */
-    public function replace(string $search, string $replacement) : xString
+    public function replace($search, $replacement) : xString
     {
+        $search = $search instanceof xString ? $search->value() : $search;
+        $replacement = $replacement instanceof xString ? $replacement->value() : $replacement;
         $this->str = str_replace($search, $replacement, $this->str);
         return $this;
     }
@@ -426,13 +438,15 @@ class xString implements IteratorAggregate
     /**
      * Replace string by regular expression
      *
-     * @param string $pattern
-     * @param string $replacement
+     * @param string|xString $pattern
+     * @param string|xString $replacement
      *
      * @return $this
      */
-    public function replaceRegEx(string $pattern, string $replacement) : xString
+    public function replaceRegEx($pattern, $replacement) : xString
     {
+        $pattern = $pattern instanceof xString ? $pattern->value() : $pattern;
+        $replacement = $replacement instanceof xString ? $replacement->value() : $replacement;
         $this->str = preg_replace($pattern, $replacement, $this->str);
         return $this;
     }
