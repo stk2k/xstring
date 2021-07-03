@@ -141,7 +141,7 @@ class xString implements IteratorAggregate
      */
     public function indexOf($search) : int
     {
-        $search = $search instanceof xString ? $search->value() : $search;
+        $search = xs::unbox($search);
         $res = mb_strpos($this->str, $search);
         return $res === false ? -1 : $res;
     }
@@ -155,7 +155,7 @@ class xString implements IteratorAggregate
      */
     public function contains($search) : bool
     {
-        $search = $search instanceof xString ? $search->value() : $search;
+        $search = xs::unbox($search);
         return mb_strpos($this->str, $search) !== false;
     }
 
@@ -168,7 +168,7 @@ class xString implements IteratorAggregate
      */
     public function startsWith($str) : bool
     {
-        $str = $str instanceof xString ? $str->value() : $str;
+        $str = xs::unbox($str);
         return mb_strpos($this->str, $str) === 0;
     }
 
@@ -181,7 +181,7 @@ class xString implements IteratorAggregate
      */
     public function endsWith($str) : bool
     {
-        $str = $str instanceof xString ? $str->value() : $str;
+        $str = xs::unbox($str);
         return mb_strrpos($this->str, $str) === mb_strlen($this->str) - mb_strlen($str);
     }
 
@@ -240,7 +240,7 @@ class xString implements IteratorAggregate
      */
     public function append($str) : self
     {
-        $str = $str instanceof xString ? $str->value() : $str;
+        $str = xs::unbox($str);
         $this->str = $this->str . $str;
         return $this;
     }
@@ -289,7 +289,7 @@ class xString implements IteratorAggregate
      */
     public function split($separator = '') : xStringArray
     {
-        $separator = $separator instanceof xString ? $separator->value() : $separator;
+        $separator = xs::unbox($separator);
         if (empty($separator)){
             return new xStringArray(mb_str_split($this->str), $this->encoding);
         }
@@ -331,12 +331,13 @@ class xString implements IteratorAggregate
     /**
      * Check if the string is same to specified string
      *
-     * @param string $value
+     * @param string|xString $value
      *
      * @return bool
      */
-    public function equals(string $value) : bool
+    public function equals($value) : bool
     {
+        $value = xs::unbox($value);
         return strcmp($this->value(), $value) === 0;
     }
 
@@ -361,7 +362,7 @@ class xString implements IteratorAggregate
      */
     public function compare($value) : int
     {
-        $value = $value instanceof xString ? $value->value() : $value;
+        $value = xs::unbox($value);
         return strcmp($this->value(), $value);
     }
 
@@ -429,8 +430,8 @@ class xString implements IteratorAggregate
      */
     public function replace($search, $replacement) : xString
     {
-        $search = $search instanceof xString ? $search->value() : $search;
-        $replacement = $replacement instanceof xString ? $replacement->value() : $replacement;
+        $search = xs::unbox($search);
+        $replacement = xs::unbox($replacement);
         $this->str = str_replace($search, $replacement, $this->str);
         return $this;
     }
@@ -445,8 +446,8 @@ class xString implements IteratorAggregate
      */
     public function replaceRegEx($pattern, $replacement) : xString
     {
-        $pattern = $pattern instanceof xString ? $pattern->value() : $pattern;
-        $replacement = $replacement instanceof xString ? $replacement->value() : $replacement;
+        $pattern = xs::unbox($pattern);
+        $replacement = xs::unbox($replacement);
         $this->str = preg_replace($pattern, $replacement, $this->str);
         return $this;
     }
