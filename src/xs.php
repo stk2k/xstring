@@ -33,19 +33,19 @@ final class xs
         if ($str instanceof xStringBuffer){
             return $str->toString()->value();
         }
-        else if ($str instanceof xString){
+        if ($str instanceof xString){
             return $str->value();
         }
-        else if ($str === true){
+         if ($str === true){
             return 'true';
         }
-        else if ($str === false){
+         if ($str === false){
             return 'false';
         }
-        else if (is_scalar($str)){
+         if (is_scalar($str)){
             return "$str";
         }
-        else if (is_object($str) && method_exists($str, '__toString')){
+         if (is_object($str) && method_exists($str, '__toString')){
             return $str->__toString();
         }
         return null;
