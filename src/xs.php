@@ -33,11 +33,8 @@ final class xs
         if (is_object($str) && method_exists($str, '__toString')){
             return $str->__toString();
         }
-        if ($str === true){
-            return 'true';
-        }
-        if ($str === false){
-            return 'false';
+        if (is_bool($str)){
+            return $str ? 'true' : 'false';
         }
         if (is_scalar($str)){
             return "$str";
