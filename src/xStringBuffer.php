@@ -180,14 +180,14 @@ final class xStringBuffer implements IteratorAggregate
             else if ($item instanceof xString){
                 $this->string->set($this->string->value() . $item->value());
             }
-            else if (is_string($item) || is_int($item) || is_float($item)){
-                $this->string->set($this->string->value() . $item);
-            }
             else if ($item === true){
                 $this->string->set($this->string->value() . 'true');
             }
             else if ($item === false){
                 $this->string->set($this->string->value() . 'false');
+            }
+            else if (is_scalar($item)){
+                $this->string->set($this->string->value() . $item);
             }
             else if (is_object($item) && method_exists($item, '__toString')){
                 $this->string->set($this->string->value() . $item->__toString());
