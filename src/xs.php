@@ -22,6 +22,36 @@ final class xs
     }
 
     /**
+     * Unbox xString
+     *
+     * @param $str
+     *
+     * @return string|null
+     */
+    public static function toString($str) : ?string
+    {
+        if ($str instanceof xStringBuffer){
+            return $str->toString()->value();
+        }
+        else if ($str instanceof xString){
+            return $str->value();
+        }
+        else if ($str === true){
+            return 'true';
+        }
+        else if ($str === false){
+            return 'false';
+        }
+        else if (is_scalar($str)){
+            return "$str";
+        }
+        else if (is_object($str) && method_exists($str, '__toString')){
+            return $str->__toString();
+        }
+        return null;
+    }
+
+    /**
      * Join array elements with a string
      *
      * @param string $separator
@@ -316,24 +346,7 @@ final class xs
     {
         $str = self::newString($subject, $encoding);
         foreach($targets as $item){
-            if ($item instanceof xStringBuffer){
-                $str->set($str->value() . $item->toString()->value());
-            }
-            else if ($item instanceof xString){
-                $str->set($str->value() . $item->value());
-            }
-            else if ($item === true){
-                $str->set($str->value() . 'true');
-            }
-            else if ($item === false){
-                $str->set($str->value() . 'false');
-            }
-            else if (is_scalar($item)){
-                $str->set($str->value() . $item);
-            }
-            else if (is_object($item) && method_exists($item, '__toString')){
-                $str->set($str->value() . $item->__toString());
-            }
+            $str->set($str->value() . self::toString($item));
         }
         return $str;
     }

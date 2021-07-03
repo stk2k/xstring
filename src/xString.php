@@ -306,24 +306,7 @@ class xString implements IteratorAggregate
     public function concat(... $targets) : xString
     {
         foreach($targets as $item){
-            if ($item instanceof xStringBuffer){
-                $this->str = $this->str . $item->toString()->value();
-            }
-            else if ($item instanceof xString){
-                $this->str = $this->str . $item->value();
-            }
-            else if ($item === true){
-                $this->str = $this->str . 'true';
-            }
-            else if ($item === false){
-                $this->str = $this->str . 'false';
-            }
-            else if (is_scalar($item)){
-                $this->str = $this->str . $item;
-            }
-            else if (is_object($item) && method_exists($item, '__toString')){
-                $this->str = $this->str . $item->__toString();
-            }
+            $this->str .= xs::toString($item);
         }
         return $this;
     }
@@ -338,7 +321,7 @@ class xString implements IteratorAggregate
     public function equals($value) : bool
     {
         $value = xs::unbox($value);
-        return strcmp($this->value(), $value) === 0;
+        return strcmp($this->str, $value) === 0;
     }
 
     /**
@@ -350,7 +333,7 @@ class xString implements IteratorAggregate
      */
     public function equalsTo(xString $str) : bool
     {
-        return strcmp($this->value(), $str->value()) === 0;
+        return strcmp($this->str, $str->value()) === 0;
     }
 
     /**
@@ -363,7 +346,7 @@ class xString implements IteratorAggregate
     public function compare($value) : int
     {
         $value = xs::unbox($value);
-        return strcmp($this->value(), $value);
+        return strcmp($this->str, $value);
     }
 
     /**
@@ -375,7 +358,7 @@ class xString implements IteratorAggregate
      */
     public function compareTo(xString $str) : int
     {
-        return strcmp($this->value(), $str->value());
+        return strcmp($this->str, $str->value());
     }
 
     /**

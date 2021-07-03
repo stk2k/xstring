@@ -174,24 +174,7 @@ final class xStringBuffer implements IteratorAggregate
     public function concat(... $targets) : self
     {
         foreach($targets as $item){
-            if ($item instanceof xStringBuffer){
-                $this->string->set($this->string->value() . $item->string->value());
-            }
-            else if ($item instanceof xString){
-                $this->string->set($this->string->value() . $item->value());
-            }
-            else if ($item === true){
-                $this->string->set($this->string->value() . 'true');
-            }
-            else if ($item === false){
-                $this->string->set($this->string->value() . 'false');
-            }
-            else if (is_scalar($item)){
-                $this->string->set($this->string->value() . $item);
-            }
-            else if (is_object($item) && method_exists($item, '__toString')){
-                $this->string->set($this->string->value() . $item->__toString());
-            }
+            $this->string->set($this->string->value() . xs::toString($item));
         }
         return $this;
     }
