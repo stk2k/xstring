@@ -3,7 +3,7 @@ Basic string library
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/stk2k/xstring.svg?style=flat-square)](https://packagist.org/packages/stk2k/xstring)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://travis-ci.org/stk2k/xstring.svg?branch=master)](https://travis-ci.org/stk2k/xstring)
+[![Build Status](https://api.travis-ci.com/stk2k/xstring.svg?branch=main)](https://api.travis-ci.com/stk2k/xstring.svg?branch=main)
 [![Coverage Status](https://coveralls.io/repos/github/stk2k/xstring/badge.svg?branch=master)](https://coveralls.io/github/stk2k/xstring?branch=master)
 [![Code Climate](https://codeclimate.com/github/stk2k/xstring/badges/gpa.svg)](https://codeclimate.com/github/stk2k/xstring)
 [![Total Downloads](https://img.shields.io/packagist/dt/stk2k/xstring.svg?style=flat-square)](https://packagist.org/packages/stk2k/xstring)
