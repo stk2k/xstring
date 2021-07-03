@@ -322,14 +322,14 @@ final class xs
             else if ($item instanceof xString){
                 $str->set($str->value() . $item->value());
             }
-            else if (is_string($item) || is_int($item) || is_float($item)){
-                $str->set($str->value() . $item);
-            }
             else if ($item === true){
                 $str->set($str->value() . 'true');
             }
             else if ($item === false){
                 $str->set($str->value() . 'false');
+            }
+            else if (is_scalar($item)){
+                $str->set($str->value() . $item);
             }
             else if (is_object($item) && method_exists($item, '__toString')){
                 $str->set($str->value() . $item->__toString());

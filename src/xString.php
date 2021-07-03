@@ -312,14 +312,14 @@ class xString implements IteratorAggregate
             else if ($item instanceof xString){
                 $this->str = $this->str . $item->value();
             }
-            else if (is_string($item) || is_int($item) || is_float($item)){
-                $this->str = $this->str . $item;
-            }
             else if ($item === true){
                 $this->str = $this->str . 'true';
             }
             else if ($item === false){
                 $this->str = $this->str . 'false';
+            }
+            else if (is_scalar($item)){
+                $this->str = $this->str . $item;
             }
             else if (is_object($item) && method_exists($item, '__toString')){
                 $this->str = $this->str . $item->__toString();
