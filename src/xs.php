@@ -30,23 +30,17 @@ final class xs
      */
     public static function toString($str) : ?string
     {
-        if ($str instanceof xStringBuffer){
-            return $str->toString()->value();
+        if (is_object($str) && method_exists($str, '__toString')){
+            return $str->__toString();
         }
-        if ($str instanceof xString){
-            return $str->value();
-        }
-         if ($str === true){
+        if ($str === true){
             return 'true';
         }
-         if ($str === false){
+        if ($str === false){
             return 'false';
         }
-         if (is_scalar($str)){
+        if (is_scalar($str)){
             return "$str";
-        }
-         if (is_object($str) && method_exists($str, '__toString')){
-            return $str->__toString();
         }
         return null;
     }
