@@ -386,7 +386,7 @@ class xString implements IteratorAggregate
      */
     public function trim($characters = null) : xString
     {
-        $characters = $characters instanceof xString ? $characters->value() : $characters;
+        $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? trim($this->str) : trim($this->str, $characters);
         return $this;
     }
@@ -400,7 +400,7 @@ class xString implements IteratorAggregate
      */
     public function trimStart($characters = null) : xString
     {
-        $characters = $characters instanceof xString ? $characters->value() : $characters;
+        $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? ltrim($this->str) : ltrim($this->str, $characters);
         return $this;
     }
@@ -414,7 +414,7 @@ class xString implements IteratorAggregate
      */
     public function trimEnd($characters = null) : xString
     {
-        $characters = $characters instanceof xString ? $characters->value() : $characters;
+        $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? rtrim($this->str) : rtrim($this->str, $characters);
         return $this;
     }

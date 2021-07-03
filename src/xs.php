@@ -10,6 +10,18 @@ final class xs
     use StringFormatTrait;
 
     /**
+     * Unbox xString
+     *
+     * @param $str
+     *
+     * @return string|null
+     */
+    public static function unbox($str) : ?string
+    {
+        return $str instanceof xString ? $str->value() : $str;
+    }
+
+    /**
      * Join array elements with a string
      *
      * @param string $separator
