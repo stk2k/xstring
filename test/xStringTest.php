@@ -74,10 +74,19 @@ final class xStringTest extends TestCase
     public function testEncodeTo()
     {
         $str = file_get_contents('test/data/euc-jp.txt');
-        $this->assertEquals('あおい地球', (new xString($str, Encoding::EUC_JP))->encodeTo(Encoding::UTF8));
+        $encoded = (new xString($str, Encoding::EUC_JP))->encodeTo(Encoding::UTF8);
+        $this->assertEquals('あおい地球', $encoded);
+        $this->assertEquals(Encoding::UTF8, $encoded->getEncoding());
 
         $str = file_get_contents('test/data/sjis.txt');
-        $this->assertEquals('ちきゅうは青い', (new xString($str, Encoding::SJIS))->encodeTo(Encoding::UTF8));
+        $encoded = (new xString($str, Encoding::SJIS))->encodeTo(Encoding::UTF8);
+        $this->assertEquals('あおい地球', $encoded);
+        $this->assertEquals(Encoding::UTF8, $encoded->getEncoding());
+
+        $str = file_get_contents('test/data/sjis.txt');
+        $encoded = (new xString($str, Encoding::SJIS))->encodeTo(Encoding::EUC_JP);
+        $this->assertEquals(file_get_contents('test/data/euc-jp.txt'), $encoded);
+        $this->assertEquals(Encoding::EUC_JP, $encoded->getEncoding());
     }
     public function testMatch()
     {

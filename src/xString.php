@@ -466,7 +466,8 @@ class xString implements IteratorAggregate
      */
     public function encodeTo(string $encoding) : self
     {
-        return new xString(mb_convert_encoding($this->str, $encoding, $this->encoding));
+        $str = mb_convert_encoding($this->str, $encoding, $this->encoding);
+        return new xString($str, $encoding);
     }
 
     /**
