@@ -88,7 +88,7 @@ xs::each('Hello', function($c){
 
 // match
 xs::match('Hello, World!', 'lo', function($matches, $cnt){
-    echo $matches[0];       // lo
+    echo $matches[0][0];    // lo
     echo $cnt;              // 1
 });
 ```
