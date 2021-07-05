@@ -87,8 +87,8 @@ xs::each('Hello', function($c){
 });
 
 // match
-echo xs::match('Hello, World!', '/lo/')->toJSON();                      // ["lo"]
-echo xs::match('Foo123, Bar456, Foo789', '/Foo([0-9]+)/')->toJSON();    // ['Foo123','123']
+echo xs::match('Hello, World!', '/lo/');                      // ["lo"]
+echo xs::match('Foo123, Bar456, Foo789', '/Foo([0-9]+)/');    // ['Foo123','123']
 ```
 
 ### global function(s)
