@@ -82,6 +82,12 @@ final class xStringTest extends TestCase
     public function testMatch()
     {
         $str = 'Hello, World!';
+        (new xString($str))->match('lo', function($matches, $cnt){
+            $this->assertEquals('lo', $matches[0][0]);
+            $this->assertEquals(1, $cnt);
+        });
+
+        $str = 'Hello, World!';
         $res = [];
         (new xString($str))->match('[a-z]', function($matches, $cnt) use(&$res){
             foreach($matches[0] as $item){
