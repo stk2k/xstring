@@ -43,6 +43,38 @@ final class xs
     }
 
     /**
+     * Checks if string matches regular expression
+     *
+     * $str->match('^[0-9]{40}$', function($matches){
+     *      });
+     *
+     * @param string $subject
+     * @param string $regex
+     * @param callable $cb
+     * @param string $encoding
+     *
+     * @return xString
+     */
+    public static function match(string $subject, string $regex, callable $cb, string $encoding = xString::DEFAULT_ENCODING) : xString
+    {
+        return (new xString($subject, $encoding))->match($regex, $cb);
+    }
+
+    /**
+     * Changes string encoding
+     *
+     * @param string $subject
+     * @param string $encoding_from
+     * @param string $encoding_to
+     *
+     * @return xString
+     */
+    public static function encode(string $subject, string $encoding_from, string $encoding_to) : xString
+    {
+        return (new xString($subject, $encoding_from))->encodeTo($encoding_to);
+    }
+
+    /**
      * Join array elements with a string
      *
      * @param string $separator

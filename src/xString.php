@@ -5,6 +5,7 @@ namespace stk2k\xstring;
 
 use IteratorAggregate;
 use ArrayIterator;
+use stk2k\xstring\encoding\Encoding;
 
 class xString implements IteratorAggregate
 {
@@ -25,7 +26,7 @@ class xString implements IteratorAggregate
     public function __construct(string $str, string $encoding = self::DEFAULT_ENCODING)
     {
         $this->str = $str;
-        $this->encoding = $encoding;
+        $this->encoding = Encoding::normalize($encoding);
     }
 
     /**
@@ -301,9 +302,9 @@ class xString implements IteratorAggregate
      *
      * @param ... $targets
      *
-     * @return xString
+     * @return self
      */
-    public function concat(... $targets) : xString
+    public function concat(... $targets) : self
     {
         foreach($targets as $item){
             $this->str .= xs::toString($item);
@@ -368,7 +369,7 @@ class xString implements IteratorAggregate
      *
      * @return self
      */
-    public function trim($characters = null) : xString
+    public function trim($characters = null) : self
     {
         $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? trim($this->str) : trim($this->str, $characters);
@@ -380,9 +381,9 @@ class xString implements IteratorAggregate
      *
      * @param string|xString|null $characters
      *
-     * @return xString
+     * @return self
      */
-    public function trimStart($characters = null) : xString
+    public function trimStart($characters = null) : self
     {
         $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? ltrim($this->str) : ltrim($this->str, $characters);
@@ -394,9 +395,9 @@ class xString implements IteratorAggregate
      *
      * @param string|xString|null $characters
      *
-     * @return xString
+     * @return self
      */
-    public function trimEnd($characters = null) : xString
+    public function trimEnd($characters = null) : self
     {
         $characters = xs::unbox($characters);
         $this->str = is_null($characters) ? rtrim($this->str) : rtrim($this->str, $characters);
@@ -409,9 +410,9 @@ class xString implements IteratorAggregate
      * @param string|xString $search
      * @param string|xString $replacement
      *
-     * @return $this
+     * @return self
      */
-    public function replace($search, $replacement) : xString
+    public function replace($search, $replacement) : self
     {
         $search = xs::unbox($search);
         $replacement = xs::unbox($replacement);
@@ -425,9 +426,9 @@ class xString implements IteratorAggregate
      * @param string|xString $pattern
      * @param string|xString $replacement
      *
-     * @return $this
+     * @return self
      */
-    public function replaceRegEx($pattern, $replacement) : xString
+    public function replaceRegEx($pattern, $replacement) : self
     {
         $pattern = xs::unbox($pattern);
         $replacement = xs::unbox($replacement);
@@ -436,13 +437,46 @@ class xString implements IteratorAggregate
     }
 
     /**
+     * Checks if string matches regular expression
+     *
+     * $str->match('^[0-9]{40}$', function($matches){
+     *      });
+     *
+     * @param string $regex
+     * @param callable $cb
+     * @param bool $match_all
+     *
+     * @return self
+     */
+    public function match(string $regex, callable $cb, bool $match_all = true) : self
+    {
+        $subject = $this->encoding === Encoding::UTF8 ? $this->str : $this->encodeTo(Encoding::UTF8);
+        $pattern = xs::format("/{0}/u", $regex);
+        $res = $match_all ? preg_match_all($pattern, $subject, $matches) : preg_match($pattern, $subject, $matches);
+        $cb($matches, $res);
+        return $this;
+    }
+
+    /**
+     * Changes string encoding
+     *
+     * @param string $encoding
+     *
+     * @return $this
+     */
+    public function encodeTo(string $encoding) : self
+    {
+        return new xString(mb_convert_encoding($this->str, $encoding, $this->encoding));
+    }
+
+    /**
      * Processes each characters
      *
      * @param callable $cb
      *
-     * @return $this
+     * @return self
      */
-    public function each(callable $cb) : xString
+    public function each(callable $cb) : self
     {
         foreach($this as $c){
             $cb($c);
@@ -459,5 +493,4 @@ class xString implements IteratorAggregate
     {
         return $this->str;
     }
-
 }

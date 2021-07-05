@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace stk2k\xstring\test;
 
 use PHPUnit\Framework\TestCase;
+use stk2k\xstring\encoding\Encoding;
 use stk2k\xstring\xString;
 use stk2k\xstring\xStringBuffer;
 
@@ -69,6 +70,57 @@ final class xStringTest extends TestCase
         });
         $text = ob_get_clean();
         $this->assertEquals('こ.ん.に.ち.は.', $text);
+    }
+    public function testEncodeTo()
+    {
+        $str = file_get_contents('test/data/euc-jp.txt');
+        $this->assertEquals('あおい地球', (new xString($str, Encoding::EUC_JP))->encodeTo(Encoding::UTF8));
+
+        $str = file_get_contents('test/data/sjis.txt');
+        $this->assertEquals('ちきゅうは青い', (new xString($str, Encoding::SJIS))->encodeTo(Encoding::UTF8));
+    }
+    public function testMatch()
+    {
+        $str = 'Hello, World!';
+        $res = [];
+        (new xString($str))->match('[a-z]', function($matches, $cnt) use(&$res){
+            foreach($matches[0] as $item){
+                $res[] = $item;
+            }
+        });
+        $this->assertEquals(['e','l','l','o','o','r','l','d'], $res);
+
+        $str = 'Hello, World!';
+        $res = [];
+        (new xString($str))->match('([a-z]+),([\sA-Z]+)', function($matches) use(&$res){
+            $res[] = $matches[0][0];
+            $res[] = $matches[1][0];
+            $res[] = $matches[2][0];
+        });
+        $this->assertEquals(['ello, W', 'ello', ' W'], $res);
+
+        $str = 'となりのきゃくはよくかきくうきゃくだ';
+        $res = [];
+        (new xString($str))->match('き', function($matches, $cnt) use(&$res){
+            $res[] = $matches[0][0];
+            $this->assertEquals(3, $cnt);
+        });
+        $this->assertEquals(['き'], $res);
+
+        $str = 'となりのきゃくはよくかきくうきゃくだ';
+        $res = [];
+        (new xString($str))->match('き', function($matches, $cnt) use(&$res){
+            $res[] = $matches[0];
+            $this->assertEquals(1, $cnt);
+        }, false);
+        $this->assertEquals(['き'], $res);
+
+        $str = 'となりのきゃくはよくかきくうきゃくだ';
+        $res = [];
+        (new xString($str))->match('さ', function($matches, $cnt) use(&$res){
+            $this->assertEmpty($matches);
+            $this->assertEquals(0, $cnt);
+        }, false);
     }
 
 }

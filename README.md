@@ -85,6 +85,11 @@ echo xs::format('Hello, {0}!', 'David');    // Hello, David!
 xs::each('Hello', function($c){
     echo $c . '.';    // H.e.l.l.o.
 });
+
+// match
+xs::match('Hello, World!', 'lo', function($matches){
+    echo $matches[0];       // lo
+});
 ```
 
 ### global function(s)
