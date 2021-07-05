@@ -5,6 +5,7 @@ namespace stk2k\xstring;
 
 use IteratorAggregate;
 use ArrayIterator;
+
 use stk2k\xstring\encoding\Encoding;
 
 class xString implements IteratorAggregate
@@ -439,22 +440,35 @@ class xString implements IteratorAggregate
     /**
      * Checks if string matches regular expression
      *
-     * $str->match('^[0-9]{40}$', function($matches){
-     *      });
+     * @param string $pattern
      *
-     * @param string $regex
-     * @param callable $cb
-     * @param bool $match_all
-     *
-     * @return self
+     * @return xStringArray
      */
-    public function match(string $regex, callable $cb, bool $match_all = true) : self
+    public function match(string $pattern) : xStringArray
     {
         $subject = $this->encoding === Encoding::UTF8 ? $this->str : $this->encodeTo(Encoding::UTF8);
-        $pattern = xs::format("/{0}/u", $regex);
-        $res = $match_all ? preg_match_all($pattern, $subject, $matches) : preg_match($pattern, $subject, $matches);
-        $cb($matches, $res);
-        return $this;
+        $ret = [];
+        if (preg_match($pattern, $subject, $matches) !== false){
+            $ret = $matches;
+        }
+        return new xStringArray($ret);
+    }
+
+    /**
+     * Checks if string matches regular expression
+     *
+     * @param string $pattern
+     *
+     * @return xStringArray
+     */
+    public function matchAll(string $pattern) : xStringArray
+    {
+        $subject = $this->encoding === Encoding::UTF8 ? $this->str : $this->encodeTo(Encoding::UTF8);
+        $ret = [];
+        if (preg_match_all($pattern, $subject, $matches) !== false){
+            $ret = $matches;
+        }
+        return new xStringArray($ret);
     }
 
     /**

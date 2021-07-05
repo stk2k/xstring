@@ -148,6 +148,20 @@ final class xStringArray implements ArrayAccess, IteratorAggregate, Countable, J
     }
 
     /**
+     * Converts to JSON
+     *
+     * @param int $flags
+     *
+     * @return string
+     */
+    public function toJSON(int $flags = 0) : string
+    {
+        return json_encode($this->values, $flags);
+    }
+
+    /**
+     * Convert to string
+     *
      * @return string
      */
     public function __toString() : string

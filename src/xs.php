@@ -45,19 +45,29 @@ final class xs
     /**
      * Checks if string matches regular expression
      *
-     * $str->match('^[0-9]{40}$', function($matches){
-     *      });
-     *
      * @param string $subject
-     * @param string $regex
-     * @param callable $cb
+     * @param string $pattern
      * @param string $encoding
      *
-     * @return xString
+     * @return xStringArray
      */
-    public static function match(string $subject, string $regex, callable $cb, string $encoding = xString::DEFAULT_ENCODING) : xString
+    public static function match(string $subject, string $pattern, string $encoding = xString::DEFAULT_ENCODING) : xStringArray
     {
-        return (new xString($subject, $encoding))->match($regex, $cb);
+        return (new xString($subject, $encoding))->match($pattern);
+    }
+
+    /**
+     * Checks if string matches regular expression
+     *
+     * @param string $subject
+     * @param string $pattern
+     * @param string $encoding
+     *
+     * @return xStringArray
+     */
+    public static function matchAll(string $subject, string $pattern, string $encoding = xString::DEFAULT_ENCODING) : xStringArray
+    {
+        return (new xString($subject, $encoding))->matchAll($pattern);
     }
 
     /**

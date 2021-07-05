@@ -91,51 +91,55 @@ final class xStringTest extends TestCase
     public function testMatch()
     {
         $str = 'Hello, World!';
-        (new xString($str))->match('lo', function($matches, $cnt){
-            $this->assertEquals('lo', $matches[0][0]);
-            $this->assertEquals(1, $cnt);
-        });
+        $res = (new xString($str))->match('/lo/');
+        $this->assertEquals(['lo'], $res->values());
+
+        $str = 'Foo123, Bar456, Foo789';
+        $res = (new xString($str))->match('/Foo([0-9]+)/');
+        $this->assertEquals(['Foo123','123'], $res->values());
 
         $str = 'Hello, World!';
-        $res = [];
-        (new xString($str))->match('[a-z]', function($matches, $cnt) use(&$res){
-            foreach($matches[0] as $item){
-                $res[] = $item;
-            }
-        });
-        $this->assertEquals(['e','l','l','o','o','r','l','d'], $res);
+        $res = (new xString($str))->match('/[a-z]/');
+        $this->assertEquals(['e'], $res->values());
 
         $str = 'Hello, World!';
-        $res = [];
-        (new xString($str))->match('([a-z]+),([\sA-Z]+)', function($matches) use(&$res){
-            $res[] = $matches[0][0];
-            $res[] = $matches[1][0];
-            $res[] = $matches[2][0];
-        });
-        $this->assertEquals(['ello, W', 'ello', ' W'], $res);
+        $res = (new xString($str))->match('/([a-z]+),([\sA-Z]+)/');
+        $this->assertEquals(['ello, W', 'ello', ' W'], $res->values());
 
         $str = 'となりのきゃくはよくかきくうきゃくだ';
-        $res = [];
-        (new xString($str))->match('き', function($matches, $cnt) use(&$res){
-            $res[] = $matches[0][0];
-            $this->assertEquals(3, $cnt);
-        });
-        $this->assertEquals(['き'], $res);
+        $res = (new xString($str))->match('/き/u');
+        $this->assertEquals(['き'], $res->values());
 
         $str = 'となりのきゃくはよくかきくうきゃくだ';
-        $res = [];
-        (new xString($str))->match('き', function($matches, $cnt) use(&$res){
-            $res[] = $matches[0];
-            $this->assertEquals(1, $cnt);
-        }, false);
-        $this->assertEquals(['き'], $res);
+        $res = (new xString($str))->match('/さ/u');
+        $this->assertEquals([], $res->values());
+    }
+
+    public function testMatchAll()
+    {
+        $str = 'Hello, World!';
+        $res = (new xString($str))->matchAll('/lo/');
+        $this->assertSame([['lo']], $res->values());
+
+        $str = 'Foo123, Bar456, Foo789';
+        $res = (new xString($str))->matchAll('/Foo([0-9]+)/');
+        $this->assertSame([['Foo123','Foo789'],['123','789']], $res->values());
+
+        $str = 'Hello, World!';
+        $res = (new xString($str))->matchAll('/[a-z]/');
+        $this->assertSame([['e','l','l','o','o','r','l','d']], $res->values());
+
+        $str = 'Hello, World!';
+        $res = (new xString($str))->matchAll('/([a-z]+),([\sA-Z]+)/');
+        $this->assertSame([['ello, W'], ['ello'], [' W']], $res->values());
 
         $str = 'となりのきゃくはよくかきくうきゃくだ';
-        $res = [];
-        (new xString($str))->match('さ', function($matches, $cnt) use(&$res){
-            $this->assertEmpty($matches);
-            $this->assertEquals(0, $cnt);
-        }, false);
+        $res = (new xString($str))->matchAll('/き/u');
+        $this->assertSame([['き','き','き']], $res->values());
+
+        $str = 'となりのきゃくはよくかきくうきゃくだ';
+        $res = (new xString($str))->matchAll('/さ/u');
+        $this->assertSame([[]], $res->values());
     }
 
 }
