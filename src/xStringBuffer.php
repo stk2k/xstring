@@ -152,7 +152,7 @@ final class xStringBuffer implements IteratorAggregate
     }
 
     /**
-     * Append a string to buffer
+     * Add a string to tail position
      *
      * @param string|xString $str
      *
@@ -161,6 +161,19 @@ final class xStringBuffer implements IteratorAggregate
     public function append($str) : self
     {
         $this->string = $this->string->append($str);
+        return $this;
+    }
+
+    /**
+     * Add a string to head position
+     *
+     * @param string|xString $str
+     *
+     * @return $this
+     */
+    public function prepend($str) : self
+    {
+        $this->string = $this->string->prepend($str);
         return $this;
     }
 

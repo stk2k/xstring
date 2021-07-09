@@ -142,4 +142,26 @@ final class xStringTest extends TestCase
         $this->assertSame([[]], $res->values());
     }
 
+    public function testAppend()
+    {
+        $str = 'Hello';
+        $res = (new xString($str))->append(', World!');
+        $this->assertSame('Hello, World!', $res->value());
+
+        $str = 'こんにちは';
+        $res = (new xString($str))->append(', 世界!');
+        $this->assertSame('こんにちは, 世界!', $res->value());
+    }
+
+    public function testPrepend()
+    {
+        $str = ', World!';
+        $res = (new xString($str))->prepend('Hello');
+        $this->assertSame('Hello, World!', $res->value());
+
+        $str = ', 世界!';
+        $res = (new xString($str))->prepend('こんにちは');
+        $this->assertSame('こんにちは, 世界!', $res->value());
+    }
+
 }

@@ -234,7 +234,7 @@ class xString implements IteratorAggregate
     }
 
     /**
-     * Appneds a string
+     * Add a string to tail position
      *
      * @param string|xString $str
      *
@@ -244,6 +244,20 @@ class xString implements IteratorAggregate
     {
         $str = xs::unbox($str);
         $this->str = $this->str . $str;
+        return $this;
+    }
+
+    /**
+     * Add a string to head position
+     *
+     * @param string|xString $str
+     *
+     * @return self
+     */
+    public function prepend($str) : self
+    {
+        $str = xs::unbox($str);
+        $this->str = $str . $this->str;
         return $this;
     }
 
